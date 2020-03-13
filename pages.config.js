@@ -26,6 +26,7 @@ module.exports = {
     pages: [
         {
             pageName: "index",
+            type: "ts",
             template: "./draft/motion.html"
         }
     ]

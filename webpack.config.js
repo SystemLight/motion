@@ -82,13 +82,15 @@ module.exports = (env, argv) => {
         let entryObject = {};
         pages = typeof pages === "string" ? [pages] : pages;
         pages.forEach(page => {
+            let type = "js";
             let key;
             if (typeof page === "string") {
                 key = page;
             } else {
                 key = page.pageName;
+                type = page.type || type;
             }
-            entryObject[key] = `./src/${key}.js`;
+            entryObject[key] = `./src/${key}.${type}`;
         });
         return entryObject;
     };
