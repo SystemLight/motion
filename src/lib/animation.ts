@@ -38,22 +38,23 @@ export class UniformMotion extends Motion<Ball> {
         }
     }
 
-    isOutside(): string {
+    isOutside(): Array<string> {
         // 判断是否碰撞边界
         let {x, y} = this.quadraticObject.site;
+        let crash = [];
         if (x < this.crashX.from) {
-            return "left";
+            crash.push("left");
         }
         if (x > this.crashX.to) {
-            return "right";
+            crash.push("right");
         }
         if (y < this.crashY.from) {
-            return "top";
+            crash.push("top");
         }
         if (y > this.crashY.to) {
-            return "bottom";
+            crash.push("bottom");
         }
-        return "";
+        return crash;
     }
 
     protected _beforeStep(): void {
@@ -83,24 +84,35 @@ export class UniformMotion extends Motion<Ball> {
 
 export class AccelerateMotion extends UniformMotion {
 
-    accelerate: number = 0.03;
+    accelerate: number = 0;
 
     protected _beforeStep(): void {
-        this.quadraticObject.speed += this.accelerate;
+        this.quadraticObject.vx += this.accelerate;
+        this.quadraticObject.vy += this.accelerate;
         super._beforeStep();
     }
 }
 
 export class BounceMotion extends AccelerateMotion {
-    bounce: number = -0.8;
+    bounce: number = -1;
 
     protected _afterStep(): void {
-        if (this.isOutside()) {
+        let crash = this.isOutside();
+        if (crash.includes("left")) {
+            this.quadraticObject.site.x = this.crashX.from;
+            this.quadraticObject.vx *= this.bounce;
+        }
+        if (crash.includes("right")) {
+            this.quadraticObject.site.x = this.crashX.to;
+            this.quadraticObject.vx *= this.bounce;
+        }
+        if (crash.includes("top")) {
+            this.quadraticObject.site.y = this.crashY.from;
+            this.quadraticObject.vy *= this.bounce;
+        }
+        if (crash.includes("bottom")) {
             this.quadraticObject.site.y = this.crashY.to;
-            if (this.quadraticObject.speed < 0.02) {
-                this.pause();
-            }
-            this.quadraticObject.speed *= this.bounce;
+            this.quadraticObject.vy *= this.bounce;
         }
         super._afterStep();
     }

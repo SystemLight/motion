@@ -1,6 +1,6 @@
 import {BounceMotion} from "./lib/animation";
 import {Ball} from "./lib/ball";
-import {createCanvas} from "./tool/utils";
+import {createCanvas, angle2radian} from "./tool/utils";
 
 
 let canGroup = document.getElementById("can-group");
@@ -16,8 +16,7 @@ if (canGroup) {
             x: can.width / 2 - b.r,
             y: b.r,
         };
-        b.setDirectionDegree(90);
-        b.speed = 0.3;
+        b.setDirection(angle2radian(45), 0.5);
         return b;
     });
     um.loop();

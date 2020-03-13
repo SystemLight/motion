@@ -13,10 +13,8 @@ export abstract class QuadraticObject {
         y: number
     };
 
-    protected _direction: number;
-    protected _speed: number;
-    protected _vx: number;
-    protected _vy: number;
+    public vx: number;
+    public vy: number;
 
     protected constructor(x: number, y: number, w: number, h: number) {
         this.size = {
@@ -27,37 +25,14 @@ export abstract class QuadraticObject {
             x: x,
             y: y
         };
-        this._direction = 0;
-        this._speed = 0;
-        this._vx = 0;
-        this._vy = 0;
+        this.vx = 0;
+        this.vy = 0;
     }
 
-    set direction(v: number) {
-        this._direction = v;
-        this._setV();
-    }
-
-    get direction(): number {
-        return this._direction;
-    }
-
-    set speed(v: number) {
-        this._speed = accuracy(v);
-        this._setV();
-    }
-
-    get speed() {
-        return this._speed;
-    }
-
-    _setV(): void {
-        this._vx = accuracy(Math.cos(this._direction)) * accuracy(this._speed);
-        this._vy = accuracy(Math.sin(this._direction)) * accuracy(this._speed);
-    }
-
-    setDirectionDegree(degree: number): void {
-        this.direction = (Math.PI / 180) * degree;
+    setDirection(radian: number, speed: number) {
+        // 角度可选范围0-360度
+        this.vx = accuracy(Math.cos(accuracy(radian))) * accuracy(speed);
+        this.vy = accuracy(Math.sin(accuracy(radian))) * accuracy(speed);
     }
 
     abstract step(...args: any[]): void

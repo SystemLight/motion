@@ -36,8 +36,8 @@ export class Ball extends QuadraticObject {
         // 速度：每毫秒多少像素
         let {x, y} = this.site;
         this.site = {
-            x: x + this._vx * diffTime,
-            y: y + this._vy * diffTime
+            x: x + this.vx * diffTime,
+            y: y + this.vy * diffTime
         };
     }
 
