@@ -1,4 +1,4 @@
-import {boundary, Motion} from "../interface/motion";
+import {range, Motion} from "../interface/motion";
 import {Ball} from "./ball";
 
 
@@ -11,33 +11,46 @@ export class UniformMotion extends Motion<Ball> {
 
     constructor(
         public canvas: HTMLCanvasElement,
-        public sizeX: boundary,
-        public sizeY: boundary,
+        public boundaryX: range,
+        public boundaryY: range,
         public createQuadraticObject: () => Ball
     ) {
-        super(sizeX, sizeY, createQuadraticObject);
+        super(boundaryX, boundaryY, createQuadraticObject);
 
         this.ctx = canvas.getContext("2d");
+    }
+
+    get crashX(): range {
+        let {from, to} = this.boundaryX;
+
+        return {
+            from: from + this.quadraticObject.r,
+            to: to - this.quadraticObject.r,
+        }
+    }
+
+    get crashY(): range {
+        let {from, to} = this.boundaryY;
+
+        return {
+            from: from + this.quadraticObject.r,
+            to: to - this.quadraticObject.r,
+        }
     }
 
     isOutside(): string {
         // 判断是否碰撞边界
         let {x, y} = this.quadraticObject.site;
-        let r = this.quadraticObject.r;
-        let _minX = this.sizeX.from + r;
-        let _maxX = this.sizeX.to - r;
-        let _minY = this.sizeY.from + r;
-        let _maxY = this.sizeY.to - r;
-        if (x < _minX) {
+        if (x < this.crashX.from) {
             return "left";
         }
-        if (x > _maxX) {
+        if (x > this.crashX.to) {
             return "right";
         }
-        if (y < _minY) {
+        if (y < this.crashY.from) {
             return "top";
         }
-        if (y > _maxY) {
+        if (y > this.crashY.to) {
             return "bottom";
         }
         return "";
@@ -53,7 +66,7 @@ export class UniformMotion extends Motion<Ball> {
 
     loop(): void {
         if (this.ctx) {
-            this.ctx.clearRect(this.sizeX.from, this.sizeY.from, this.sizeX.to, this.sizeY.to);
+            this.ctx.clearRect(this.boundaryX.from, this.boundaryY.from, this.boundaryX.to, this.boundaryY.to);
             this._beforeStep();
             this.quadraticObject.step(this.diffTime);
             this._afterStep();
@@ -83,7 +96,7 @@ export class BounceMotion extends AccelerateMotion {
 
     protected _afterStep(): void {
         if (this.isOutside()) {
-            this.quadraticObject.site.y = this.sizeY.to - this.quadraticObject.r;
+            this.quadraticObject.site.y = this.crashY.to;
             if (this.quadraticObject.speed < 0.02) {
                 this.pause();
             }

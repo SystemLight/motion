@@ -1,4 +1,4 @@
-export type boundary = {
+export type range = {
     from: number,
     to: number
 };
@@ -15,8 +15,8 @@ export abstract class Motion<qo> {
     protected _loop: () => void;
 
     protected constructor(
-        public sizeX: boundary,
-        public sizeY: boundary,
+        public boundaryX: range,
+        public boundaryY: range,
         public createQuadraticObject: () => qo
     ) {
         this.isStop = false;

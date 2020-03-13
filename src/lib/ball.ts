@@ -12,7 +12,6 @@ export class Ball extends QuadraticObject {
     }
 
     set r(v: number) {
-        console.log("r");
         this.size = {
             w: v * 2,
             h: v * 2
