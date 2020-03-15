@@ -16,7 +16,7 @@ if (canGroup) {
             x: can.width / 2 - b.r,
             y: b.r,
         };
-        b.setDirection(angle2radian(45), 0.5);
+        b.setDirection(angle2radian(110), 0.5);
         return b;
     });
     um.loop();

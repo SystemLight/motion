@@ -84,28 +84,29 @@ export class UniformMotion extends Motion<Ball> {
 
 export class AccelerateMotion extends UniformMotion {
 
-    accelerate: number = 0;
+    accelerate: number = 0.03;
 
     protected _beforeStep(): void {
-        this.quadraticObject.vx += this.accelerate;
+        // 设定：只受垂直
+        this.quadraticObject.vx += 0;
         this.quadraticObject.vy += this.accelerate;
         super._beforeStep();
     }
 }
 
 export class BounceMotion extends AccelerateMotion {
-    bounce: number = -1;
+    bounce: number = -0.5;
 
     protected _afterStep(): void {
         let crash = this.isOutside();
-        if (crash.includes("left")) {
-            this.quadraticObject.site.x = this.crashX.from;
-            this.quadraticObject.vx *= this.bounce;
-        }
-        if (crash.includes("right")) {
-            this.quadraticObject.site.x = this.crashX.to;
-            this.quadraticObject.vx *= this.bounce;
-        }
+        // if (crash.includes("left")) {
+        //     this.quadraticObject.site.x = this.crashX.from;
+        //     this.quadraticObject.vx *= this.bounce;
+        // }
+        // if (crash.includes("right")) {
+        //     this.quadraticObject.site.x = this.crashX.to;
+        //     this.quadraticObject.vx *= this.bounce;
+        // }
         if (crash.includes("top")) {
             this.quadraticObject.site.y = this.crashY.from;
             this.quadraticObject.vy *= this.bounce;
