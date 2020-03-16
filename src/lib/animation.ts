@@ -1,5 +1,6 @@
 import {range, Motion} from "../interface/motion";
 import {Ball} from "./ball";
+import TWEEN from '@tweenjs/tween.js'
 
 
 export class UniformMotion extends Motion<Ball> {
@@ -116,5 +117,33 @@ export class BounceMotion extends AccelerateMotion {
             this.quadraticObject.vy *= this.bounce;
         }
         super._afterStep();
+    }
+}
+
+export class TweenMotion extends Motion<Ball> {
+
+    ctx: CanvasRenderingContext2D | null;
+
+    constructor(
+        public canvas: HTMLCanvasElement,
+        public boundaryX: range,
+        public boundaryY: range,
+        public createQuadraticObject: () => Ball
+    ) {
+        super(boundaryX, boundaryY, createQuadraticObject);
+
+        this.ctx = canvas.getContext("2d");
+    }
+
+    loop(): void {
+        if (this.ctx) {
+            this.ctx.clearRect(this.boundaryX.from, this.boundaryY.from, this.boundaryX.to, this.boundaryY.to);
+            TWEEN.update();
+            this.quadraticObject.draw(this.ctx);
+            if (this.isStop || this.isPause) {
+                return;
+            }
+            requestAnimationFrame(this._loop);
+        }
     }
 }

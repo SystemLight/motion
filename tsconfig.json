@@ -13,7 +13,7 @@
     "jsx": "preserve",
     "module": "esNext",
     "resolveJsonModule": false,
-    "allowJs": false,
+    "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "isolatedModules": true,
