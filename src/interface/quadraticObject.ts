@@ -3,40 +3,35 @@ import {accuracy} from "../tool/utils";
 
 export abstract class QuadraticObject {
 
-    size: {
-        w: number,
-        h: number
-    };
+    public vx: number = 0;
+    public vy: number = 0;
 
-    site: {
-        x: number,
-        y: number
-    };
-
-    public vx: number;
-    public vy: number;
-
-    protected constructor(x: number, y: number, w: number, h: number) {
-        this.size = {
-            w: w,
-            h: h
-        };
-        this.site = {
-            x: x,
-            y: y
-        };
-        this.vx = 0;
-        this.vy = 0;
+    protected constructor(
+        public x: number = 0,
+        public y: number = 0,
+        public halfW: number = 0,
+        public halfH: number = 0
+    ) {
     }
 
     setDirection(radian: number, speed: number) {
-        // 角度可选范围0-360度
-        this.vx = accuracy(Math.cos(accuracy(radian))) * accuracy(speed);
-        this.vy = accuracy(Math.sin(accuracy(radian))) * accuracy(speed);
+        // 拖过物体角度设置方向，角度可选范围0-360度
+        this.vx = accuracy(Math.cos(radian) * speed);
+        this.vy = accuracy(Math.sin(radian) * speed);
+    }
+
+    setXY(val: number) {
+        this.x = val;
+        this.y = val;
+    }
+
+    setHalfWH(val: number) {
+        this.halfW = val;
+        this.halfH = val;
     }
 
     abstract step(...args: any[]): void
 
-    abstract draw(...args: any[]): void
+    abstract render(...args: any[]): void
 
 }
