@@ -4,10 +4,10 @@ import TWEEN from '@tweenjs/tween.js'
 
 
 function createCanvas(
-    canGroup: HTMLElement,
-    w: number = 500,
-    h: number = 500
-): HTMLCanvasElement {
+    canGroup,
+    w = 500,
+    h = 500
+) {
     let can = document.createElement("canvas");
     can.width = w;
     can.height = h;
