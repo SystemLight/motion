@@ -2,9 +2,8 @@ import {CanvasMotion} from "../interface/motion";
 import {Ball} from "./ball";
 import {angle2radian} from "../tool/utils";
 
-import TWEEN from '@tweenjs/tween.js'
 
-
+// 实现CanvasMotion的动画类，Animation不是一个通用类，它的实现即代表实际业务情况
 export class Animation extends CanvasMotion {
 
     public ball?: Ball;

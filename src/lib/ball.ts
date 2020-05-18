@@ -1,6 +1,7 @@
 import {QuadraticObject} from "../interface/quadraticObject";
 
 
+// 通过继承QuadraticObject创造一个Ball类
 export class Ball extends QuadraticObject {
 
     color: string = "#333333";

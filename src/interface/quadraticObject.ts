@@ -1,6 +1,7 @@
 import {accuracy} from "../tool/utils";
 
 
+// 定义一个二维物体的基类
 export abstract class QuadraticObject {
 
     public vx: number = 0;

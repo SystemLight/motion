@@ -6,6 +6,7 @@ export type range = {
     to: number
 };
 
+// 运动描述基类，所有运动必须实现Motion
 export abstract class Motion {
 
     public isStop: boolean = false;
@@ -91,6 +92,7 @@ export abstract class Motion {
 
 }
 
+// 基于Canvas的运动描述
 export abstract class CanvasMotion extends Motion {
 
     public ctx: CanvasRenderingContext2D;
@@ -167,7 +169,6 @@ export abstract class CanvasMotion extends Motion {
         this.drawFrame();
     }
 
-    // 该方法对所有定义的
     abstract initElement(): void;
 
     abstract stepFrame(): void;
