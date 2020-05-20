@@ -41,19 +41,19 @@ export abstract class Motion {
     }
 
     public beforeStart(): void {
-        // 钩子函数，开始之前调用的函数
+        // [钩子函数]，开始之前调用的函数
     }
 
     public beforeStop(): void {
-        // 钩子函数，停止之前调用的函数
+        // [钩子函数]，停止之前调用的函数
     }
 
     public beforePause(): void {
-        // 钩子函数，暂停之前调用的函数
+        // [钩子函数]，暂停之前调用的函数
     }
 
     public beforeContinue(): void {
-        // 钩子函数，继续之前调用的函数
+        // [钩子函数]，继续之前调用的函数
     }
 
     start(): void {
@@ -114,11 +114,8 @@ export abstract class CanvasMotion extends Motion {
         this.initElement();
     }
 
-    public isOutside(qo?: QuadraticObject | null): Array<string> {
+    public isOutside(qo: QuadraticObject): Array<string> {
         // 判断二维物体是否碰撞边界
-        if (!qo) {
-            throw TypeError("qo类型是空值");
-        }
         let {x, y, halfW, halfH} = qo;
         let {boundaryX, boundaryY} = this;
         let crash = [];
@@ -142,10 +139,12 @@ export abstract class CanvasMotion extends Motion {
     }
 
     protected _beforeStep(): void {
+        // [钩子函数]，物体步进之前执行的函数
         this.beforeStep && this.beforeStep();
     }
 
     protected _afterStep(): void {
+        // [钩子函数]，物体步进之后执行的函数
         this.afterStep && this.afterStep();
     }
 

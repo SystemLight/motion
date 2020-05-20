@@ -16,6 +16,7 @@ if (canGroup) {
 
     // =====开启描述动画=====
     let um = new Animation(can);
+
     um.loop();
     // =====开启描述动画=====
 }
