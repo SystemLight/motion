@@ -1,195 +1,144 @@
 const ph = require("path");
 
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const {CleanWebpackPlugin} = require("clean-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
-const {pages, splitChunks} = require("./pages.config");
-
-
-module.exports = (env, argv) => {
-    let workEnv = argv.mode;
-
-    let getMinify = workEnv === "development" ? undefined : {
-        removeComments: true,
-        collapseWhitespace: true,
-        minifyCSS: true
-    };
-
-    let getDevServer = {
-        contentBase: './dist',
-        index: 'index.html',
-        openPage: '',
+module.exports = {
+    mode: "development",
+    devtool: "inline-source-map",
+    context: __dirname,
+    resolve: {
+        extensions: [".js", ".ts"]
+    },
+    devServer: {
+        contentBase: "./dist",
+        index: "index.html",
+        openPage: "",
         inline: true,
         historyApiFallback: true,
         hot: false,
         hotOnly: false,
         open: true,
         proxy: {
-            '/proxy':
+            "/proxy":
                 {
-                    target: 'https://cnodejs.org/',
+                    target: "https://cnodejs.org/",
                     secure: false,
-                    pathRewrite: {'^/proxy': ''},
+                    pathRewrite: {"^/proxy": ""},
                     changeOrigin: true,
                     cookieDomainRewrite: ".cnodejs.org"
                 }
         }
-    };
-
-    let getHtmlPage = function (pages) {
-        let htmlArray = [];
-        pages = typeof pages === "string" ? [pages] : pages;
-        pages.forEach((page) => {
-            let defaultPageOpt = {
-                title: 'my web app',
-                keywords: "关键词",
-                description: "描述",
-                iconPath: "./favicon.ico",
-                style: "",
-                pageName: "index",
-                template: "./draft/template.html",
-                chunks: []
-            };
-            if (typeof page === "string") {
-                defaultPageOpt["pageName"] = page;
-            } else {
-                if (page.notHtml) {
-                    return;
+    },
+    optimization: {
+        splitChunks: {
+            chunks: "async",
+            minSize: 30000,
+            maxSize: 0,
+            minChunks: 1,
+            maxAsyncRequests: 6,
+            maxInitialRequests: 4,
+            automaticNameDelimiter: "~",
+            cacheGroups: {
+                vendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    priority: -10
+                },
+                default: {
+                    minChunks: 2,
+                    priority: -20,
+                    reuseExistingChunk: true
                 }
-                defaultPageOpt = Object.assign(defaultPageOpt, page);
             }
-            htmlArray.push(
-                new HtmlWebpackPlugin({
-                    title: defaultPageOpt.title,
-                    keywords: defaultPageOpt.keywords,
-                    description: defaultPageOpt.description,
-                    iconPath: defaultPageOpt.iconPath,
-                    style: defaultPageOpt.style,
-                    hash: false,
-                    filename: `${defaultPageOpt.pageName}.html`,
-                    template: defaultPageOpt.template,
-                    inject: true,
-                    minify: getMinify,
-                    chunks: [defaultPageOpt.pageName, ...defaultPageOpt.chunks]
-                })
-            );
-        });
-        return htmlArray;
-    };
-
-    let getEntry = function (pages) {
-        let entryObject = {};
-        pages = typeof pages === "string" ? [pages] : pages;
-        pages.forEach(page => {
-            let type = "js";
-            let key;
-            if (typeof page === "string") {
-                key = page;
-            } else {
-                key = page.pageName;
-                type = page.type || type;
-            }
-            entryObject[key] = `./src/${key}.${type}`;
-        });
-        return entryObject;
-    };
-
-    return {
-        mode: workEnv,
-        devtool: workEnv === "development" ? 'inline-source-map' : "source-map",
-        context: __dirname,
-        resolve: {
-            extensions: [".js", ".ts"]
-        },
-        devServer: getDevServer,
-        optimization: {splitChunks: splitChunks},
-        entry: getEntry(pages),
-        output: {
-            filename: "js/[name].bundle.js",
-            path: ph.resolve(__dirname, "dist"),
-            publicPath: "/"
-        },
-        externals: {},
-        module: {
-            rules: [
-                {
-                    test: /^(?!.*\.module).*\.less$/,
-                    exclude: /(node_modules|bower_components)/,
-                    loader: 'style-loader!css-loader!less-loader'
-                },
-                {
-                    test: /^(.*\.module).less$/,
-                    exclude: /(node_modules|bower_components)/,
-                    use: [
-                        'style-loader',
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                modules: {
-                                    localIdentName: "[name]-[hash:base64:6]",
-                                },
-                            }
-                        },
-                        "less-loader"
-                    ]
-                },
-                {
-                    test: /^(?!.*\.module).*\.css$/,
-                    exclude: /(node_modules|bower_components)/,
-                    loader: 'style-loader!css-loader',
-                },
-                {
-                    test: /^(.*\.module).css$/,
-                    exclude: /(node_modules|bower_components)/,
-                    use: [
-                        'style-loader',
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                modules: {
-                                    localIdentName: "[name]-[hash:base64:6]",
-                                },
-                            }
-                        }
-                    ]
-                },
-                {
-                    test: /.js$/,
-                    exclude: /(node_modules|bower_components)/,
-                    loader: 'babel-loader'
-                },
-                {
-                    test: /\.ts$/,
-                    exclude: /(node_modules|bower_components)/,
-                    loader: 'babel-loader!ts-loader'
-                },
-                {
-                    test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                    exclude: /(node_modules|bower_components)/,
-                    use: [{
-                        loader: 'url-loader',
+        }
+    },
+    entry: {
+        "index": "./src/index.ts"
+    },
+    output: {
+        filename: "js/[name].bundle.js",
+        path: ph.resolve(__dirname, "dist"),
+        publicPath: "/"
+    },
+    externals: {},
+    module: {
+        rules: [
+            {
+                test: /^(?!.*\.module).*\.css$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: "style-loader!css-loader"
+            },
+            {
+                test: /^(.*\.module).css$/,
+                exclude: /(node_modules|bower_components)/,
+                use: [
+                    "style-loader",
+                    {
+                        loader: "css-loader",
                         options: {
-                            limit: 8192,
-                            fallback: 'file-loader',
-                            name: 'media/images/[name].[hash:7].[ext]',
-                            publicPath: '/',
-                            esModule: false
+                            modules: {
+                                localIdentName: "[name]-[hash:base64:6]"
+                            }
                         }
-                    }]
-                },
-            ]
-        },
-        plugins: [
-            new CleanWebpackPlugin(),
-            new CopyWebpackPlugin([
-                {
-                    from: __dirname + '/public',
-                    to: __dirname + '/dist',
-                    ignore: ['.*']
-                }
-            ]),
-            ...getHtmlPage(pages)
+                    }
+                ]
+            },
+            {
+                test: /.js$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: "babel-loader"
+            },
+            {
+                test: /\.ts$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: "babel-loader!ts-loader"
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+                exclude: /(node_modules|bower_components)/,
+                use: [{
+                    loader: "url-loader",
+                    options: {
+                        limit: 8192,
+                        fallback: "file-loader",
+                        name: "media/images/[name].[hash:7].[ext]",
+                        publicPath: "/",
+                        esModule: false
+                    }
+                }]
+            }
         ]
-    }
+    },
+    plugins: [
+        new CleanWebpackPlugin(),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: __dirname + "/public",
+                    to: __dirname + "/dist",
+                    globOptions: {
+                        ignore: [".*"]
+                    }
+                }
+            ]
+        }),
+        new HtmlWebpackPlugin({
+            title: "Motion App",
+            keywords: "",
+            description: "",
+            iconPath: "/favicon.ico",
+            style: "",
+            hash: false,
+            filename: "index.html",
+            template: "./draft/motion.html",
+            inject: true,
+            minify: {
+                removeComments: true,
+                collapseWhitespace: true,
+                minifyCSS: true
+            },
+            chunks: ["vendors", "default", "index"]
+        })
+    ]
 };
