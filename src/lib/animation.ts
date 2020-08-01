@@ -2,10 +2,8 @@ import {CanvasMotion} from "../interface/motion";
 import {Ball} from "./ball";
 import {angle2radian} from "../tool/utils";
 
-
 // 实现CanvasMotion的动画类，Animation不是一个通用类，它的实现即代表实际业务情况
 export class Animation extends CanvasMotion {
-
     public ball?: Ball;
     public accelerate = 0.02; // 步进一帧时增加的速度，即加速度
     public bounce = -0.8; // 弹力要在0-1之间，符号代表方向，-1即代表反方向全反射，无力衰减
@@ -24,7 +22,7 @@ export class Animation extends CanvasMotion {
             this.boundaryX.to - ball.r,
             this.boundaryY.to - ball.r,
             this.boundaryX.from + ball.r
-        ]
+        ];
     }
 
     protected _beforeStep() {
@@ -34,13 +32,13 @@ export class Animation extends CanvasMotion {
 
     stepFrame(): void {
         // 实现该方法，当动画步进一帧时要做的处理程序
-        let ball = (this.ball as Ball);
+        const ball = (this.ball as Ball);
         ball.step(this.diffTime);
     }
 
     protected _afterStep() {
         super._afterStep();
-        let ball = (this.ball as Ball);
+        const ball = (this.ball as Ball);
         if (this.isOutside(ball).length > 0) {
             // 边界触碰，让物体还原到边界边缘，阻止模型穿透
             ball.y = this.crashPosition(ball)[2];
@@ -50,8 +48,7 @@ export class Animation extends CanvasMotion {
 
     drawFrame(): void {
         // 实现该方法，当动画开始渲染和绘制一帧时要做的处理程序
-        let ball = (this.ball as Ball);
+        const ball = (this.ball as Ball);
         ball.render(this.ctx);
     }
-
 }

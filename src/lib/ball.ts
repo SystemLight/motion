@@ -1,9 +1,7 @@
 import {QuadraticObject} from "../interface/quadraticObject";
 
-
 // 通过继承QuadraticObject创造一个Ball类
 export class Ball extends QuadraticObject {
-
     color: string = "#333333";
 
     constructor(
@@ -28,7 +26,7 @@ export class Ball extends QuadraticObject {
     }
 
     render(ctx: CanvasRenderingContext2D): void {
-        let {x, y, r} = this;
+        const {x, y, r} = this;
         ctx.save();
         ctx.beginPath();
         ctx.fillStyle = this.color;
@@ -36,5 +34,4 @@ export class Ball extends QuadraticObject {
         ctx.fill();
         ctx.restore();
     }
-
 }
