@@ -1,4 +1,4 @@
-import {CircleAnimation} from './core/motion'
+import {LinerMoveAnimation} from './core/motion'
 
 // 创建一个canvas画布
 function createCanvas(canGroup: HTMLElement, w = 500, h = 500) {
@@ -10,6 +10,8 @@ function createCanvas(canGroup: HTMLElement, w = 500, h = 500) {
 }
 
 // =====开启描述动画=====
-new CircleAnimation(
-  createCanvas(document.body)
-).loop()
+new LinerMoveAnimation(
+  createCanvas(document.body),
+  [{x: 200, y: 200}, {x: 100, y: 50}],
+  1
+).start()
