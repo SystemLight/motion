@@ -1,4 +1,4 @@
-import {BezierMoveAnimation} from './core/motion'
+import {InertialAnimation} from './core/motion'
 
 // 创建一个canvas画布
 function createCanvas(canGroup: HTMLElement, w = 500, h = 500) {
@@ -10,9 +10,6 @@ function createCanvas(canGroup: HTMLElement, w = 500, h = 500) {
 }
 
 // =====开启描述动画=====
-new BezierMoveAnimation(
-  createCanvas(document.body),
-  [{x: 0, y: 0}, {x: 100, y: 100}],
-  [0, 0, 1, 1],
-  1
+new InertialAnimation(
+  createCanvas(document.body)
 ).start()
