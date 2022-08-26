@@ -11,13 +11,13 @@ function createCanvas(canGroup: HTMLElement, w = 500, h = 500) {
 
 const canvas = createCanvas(document.body)
 
-// =====开启描述动画=====
+// =====开启动画描述=====
 new BezierMoveAnimation(
   canvas,
   [
     {x: 10, y: 10},
     {x: 100, y: 100}
   ],
-  [.91, .05, .97, .17],
+  [0.91, 0.05, 0.97, 0.17],
   1
 ).start()

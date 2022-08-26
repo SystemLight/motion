@@ -30,8 +30,8 @@ export class LinerMoveAnimation extends CanvasMotion {
     }
 
     const ball = this.ball!
-    ball.x = elapsedTime / this.duration * (this.points[1].x - this.points[0].x) + this.points[0].x
-    ball.y = elapsedTime / this.duration * (this.points[1].y - this.points[0].y) + this.points[0].y
+    ball.x = (elapsedTime / this.duration) * (this.points[1].x - this.points[0].x) + this.points[0].x
+    ball.y = (elapsedTime / this.duration) * (this.points[1].y - this.points[0].y) + this.points[0].y
   }
 
   drawFrame(): void {

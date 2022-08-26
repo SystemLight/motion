@@ -29,7 +29,8 @@ export class InertialAnimation extends CanvasMotion {
   stepFrame(): void {
     this._fv -= this._friction // 力度按 惯性的大小递减
     this.ball!.x = this._fv + this.ball!.x
-    if (Math.abs(this._fv) < this._absFriction) { // 如果力度减小到小于1了,结束,或者边界弹回
+    if (Math.abs(this._fv) < this._absFriction) {
+      // 如果力度减小到小于1了,结束,或者边界弹回
       console.log('stop')
       this.stop()
     }

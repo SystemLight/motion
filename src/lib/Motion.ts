@@ -10,10 +10,7 @@ export abstract class Motion {
 
   protected _loop: () => void
 
-  public constructor(
-    public boundaryX: Range,
-    public boundaryY: Range
-  ) {
+  public constructor(public boundaryX: Range, public boundaryY: Range) {
     this._loop = this.loop.bind(this)
   }
 

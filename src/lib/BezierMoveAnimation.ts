@@ -53,27 +53,11 @@ export class BezierMoveAnimation extends CanvasMotion {
 
     // gsap算法
     const handle: number[] = [0, 0, 0, 0]
-    handle[0] = gsap.utils.mapRange(
-      0, 1,
-      this.points[0].x, this.points[1].x,
-      this.handle[0]
-    )
-    handle[1] = gsap.utils.mapRange(
-      0, 1,
-      this.points[0].y, this.points[1].y,
-      this.handle[1]
-    )
-    handle[2] = gsap.utils.mapRange(
-      0, 1,
-      this.points[0].x, this.points[1].x,
-      this.handle[2]
-    )
-    handle[3] = gsap.utils.mapRange(
-      0, 1,
-      this.points[0].y, this.points[1].y,
-      this.handle[3]
-    );
-    [ball.x, ball.y] = bezier.threeBezier(
+    handle[0] = gsap.utils.mapRange(0, 1, this.points[0].x, this.points[1].x, this.handle[0])
+    handle[1] = gsap.utils.mapRange(0, 1, this.points[0].y, this.points[1].y, this.handle[1])
+    handle[2] = gsap.utils.mapRange(0, 1, this.points[0].x, this.points[1].x, this.handle[2])
+    handle[3] = gsap.utils.mapRange(0, 1, this.points[0].y, this.points[1].y, this.handle[3])
+    ;[ball.x, ball.y] = bezier.threeBezier(
       elapsedTime / this.duration,
       [this.points[0].x, this.points[0].y],
       [handle[0], handle[1]],

@@ -6,10 +6,7 @@ export class CircleAnimation extends CanvasMotion {
   public accelerate = 1 // 步进一帧时增加的速度，即加速度
   public origin = {x: 150, y: 150}
   public motionRadius = 100 // 运动半径
-  public xDomain = [
-    this.origin.x - this.motionRadius,
-    this.origin.x + this.motionRadius
-  ]
+  public xDomain = [this.origin.x - this.motionRadius, this.origin.x + this.motionRadius]
   public motionX = this.xDomain[0]
   public direction = 1
 
@@ -34,10 +31,8 @@ export class CircleAnimation extends CanvasMotion {
     }
     ball.x = this.motionX
     //（x-a）²+（y-b）²= r²
-    ball.y = this.direction * Math.sqrt(
-      Math.pow(this.motionRadius, 2) -
-      Math.pow(ball.x - this.origin.x, 2)
-    ) + this.origin.y
+    ball.y =
+      this.direction * Math.sqrt(Math.pow(this.motionRadius, 2) - Math.pow(ball.x - this.origin.x, 2)) + this.origin.y
   }
 
   drawFrame(): void {

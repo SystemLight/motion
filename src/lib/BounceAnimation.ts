@@ -31,19 +31,19 @@ export class BounceAnimation extends CanvasMotion {
   }
 
   protected _beforeStep() {
-    super._beforeStep();
-    (this.ball as Ball).vy += this.accelerate // 模拟垂直向下的重力加速度，根据加速度改变物体速度
+    super._beforeStep()
+    ;(this.ball as Ball).vy += this.accelerate // 模拟垂直向下的重力加速度，根据加速度改变物体速度
   }
 
   stepFrame(): void {
     // 实现该方法，当动画步进一帧时要做的处理程序
-    const ball = (this.ball as Ball)
+    const ball = this.ball as Ball
     ball.step(this.diffTime)
   }
 
   protected _afterStep() {
     super._afterStep()
-    const ball = (this.ball as Ball)
+    const ball = this.ball as Ball
     if (this.isOutside(ball).length > 0) {
       // 边界触碰，让物体还原到边界边缘，阻止模型穿透
       ball.y = this.crashPosition(ball)[2]
@@ -53,7 +53,7 @@ export class BounceAnimation extends CanvasMotion {
 
   drawFrame(): void {
     // 实现该方法，当动画开始渲染和绘制一帧时要做的处理程序
-    const ball = (this.ball as Ball)
+    const ball = this.ball as Ball
     ball.render(this.ctx)
   }
 }

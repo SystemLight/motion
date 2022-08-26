@@ -1,13 +1,10 @@
 // 通过继承QuadraticObject创造一个Ball类
-import {QuadraticObject} from '@/lib/quadraticObject'
+import {QuadraticObject} from '@/lib/QuadraticObject'
 
 export class Ball extends QuadraticObject {
   color = '#333333'
 
-  constructor(
-    x = 0, y = 0,
-    r = 10
-  ) {
+  constructor(x = 0, y = 0, r = 10) {
     super(x, y, r, r)
   }
 

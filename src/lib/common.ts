@@ -1,10 +1,10 @@
 export type Range = {
-  from: number,
+  from: number
   to: number
 }
 
 export type Point = {
-  x: number,
+  x: number
   y: number
 }
 

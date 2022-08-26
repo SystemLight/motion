@@ -255,17 +255,23 @@ class Bezier {
     const [cx1, cy1] = cp1
     const [cx2, cy2] = cp2
     const x =
-      x1 * (1 - t) * (1 - t) * (1 - t) +
-      3 * cx1 * t * (1 - t) * (1 - t) +
-      3 * cx2 * t * t * (1 - t) +
-      x2 * t * t * t
+      x1 * (1 - t) * (1 - t) * (1 - t) + 3 * cx1 * t * (1 - t) * (1 - t) + 3 * cx2 * t * t * (1 - t) + x2 * t * t * t
     const y =
-      y1 * (1 - t) * (1 - t) * (1 - t) +
-      3 * cy1 * t * (1 - t) * (1 - t) +
-      3 * cy2 * t * t * (1 - t) +
-      y2 * t * t * t
+      y1 * (1 - t) * (1 - t) * (1 - t) + 3 * cy1 * t * (1 - t) * (1 - t) + 3 * cy2 * t * t * (1 - t) + y2 * t * t * t
     return [x, y]
   }
 }
 
 export const bezier = new Bezier()
+
+export function getHeartVectors(sampleRate = 50, radius = 10) {
+  const vectors: {x: number; y: number}[] = []
+  for (let i = 0; i < sampleRate; i++) {
+    const radian = (2 * Math.PI * i) / 50
+    vectors.push({
+      x: radius * (16 * Math.pow(Math.sin(radian), 3)),
+      y: radius * (13 * Math.cos(radian) - 5 * Math.cos(2 * radian) - 2 * Math.cos(3 * radian) - Math.cos(4 * radian))
+    })
+  }
+  return vectors
+}

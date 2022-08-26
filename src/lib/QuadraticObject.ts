@@ -10,8 +10,7 @@ export abstract class QuadraticObject {
     public y: number = 0,
     public halfW: number = 0,
     public halfH: number = 0
-  ) {
-  }
+  ) {}
 
   setDirection(radian: number, speed: number) {
     // 拖过物体角度设置方向，角度可选范围0-360度
@@ -33,4 +32,3 @@ export abstract class QuadraticObject {
 
   abstract render(...args: any[]): void
 }
-

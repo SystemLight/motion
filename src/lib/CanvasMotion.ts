@@ -1,6 +1,6 @@
 // 基于Canvas的运动描述
-import {QuadraticObject} from '@/lib/quadraticObject'
-import {Motion} from '@/lib/motion'
+import {QuadraticObject} from '@/lib/QuadraticObject'
+import {Motion} from '@/lib/Motion'
 
 export abstract class CanvasMotion extends Motion {
   public ctx: CanvasRenderingContext2D
@@ -8,9 +8,7 @@ export abstract class CanvasMotion extends Motion {
   public beforeStep?: () => void
   public afterStep?: () => void
 
-  public constructor(
-    public canvas: HTMLCanvasElement
-  ) {
+  public constructor(public canvas: HTMLCanvasElement) {
     super({from: 0, to: canvas.width}, {from: 0, to: canvas.height})
 
     const ctx = canvas.getContext('2d')
@@ -75,9 +73,9 @@ export abstract class CanvasMotion extends Motion {
     this.drawFrame()
   }
 
-  abstract initElement(): void;
+  abstract initElement(): void
 
-  abstract stepFrame(): void;
+  abstract stepFrame(): void
 
-  abstract drawFrame(): void;
+  abstract drawFrame(): void
 }
