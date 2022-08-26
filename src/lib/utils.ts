@@ -264,13 +264,17 @@ class Bezier {
 
 export const bezier = new Bezier()
 
-export function getHeartVectors(sampleRate = 50, radius = 10) {
-  const vectors: {x: number; y: number}[] = []
+export function getHeartVectors(
+  sampleRate = 50, radius = 10,
+  offsetX = 0, offsetY = 0
+) {
+  const vectors: { x: number; y: number }[] = []
   for (let i = 0; i < sampleRate; i++) {
-    const radian = (2 * Math.PI * i) / 50
+    const radian = (2 * Math.PI * i) / sampleRate
     vectors.push({
-      x: radius * (16 * Math.pow(Math.sin(radian), 3)),
-      y: radius * (13 * Math.cos(radian) - 5 * Math.cos(2 * radian) - 2 * Math.cos(3 * radian) - Math.cos(4 * radian))
+      x: offsetX + radius * (16 * Math.pow(Math.sin(radian), 3)),
+      y: -(offsetY + radius * (13 * Math.cos(radian) - 5 * Math.cos(2 * radian) -
+        2 * Math.cos(3 * radian) - Math.cos(4 * radian)))
     })
   }
   return vectors
